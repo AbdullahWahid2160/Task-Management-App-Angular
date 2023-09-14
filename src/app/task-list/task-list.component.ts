@@ -8,6 +8,8 @@ import { Task } from '../models/task.model';
 })
 export class TaskListComponent {
   tasks!: Task[];
+  filterButtons = ['All', 'Completed', 'Pending'];
+  isActiveButton: string = 'All';
 
   constructor(private taskService: TaskService) {}
 
@@ -18,15 +20,25 @@ export class TaskListComponent {
     });
   }
 
-  getAllTasks() {
-    this.tasks = this.taskService.getAllTasks();
+  getTasks(action: string) {
+    this.isActiveButton = action;
+    switch (action) {
+      case 'All':
+        this.tasks = this.taskService.getAllTasks();
+        break;
+      case 'Completed':
+        this.tasks = this.taskService.getCompletedTasks();
+        break;
+      case 'Pending':
+        this.tasks = this.taskService.getPendingTasks();
+        break;
+      default:
+        this.tasks = this.taskService.getAllTasks();
+        break;
+    }
   }
 
-  getCompletedTasks() {
-    this.tasks = this.taskService.getCompletedTasks();
-  }
+  getCompletedTasks() {}
 
-  getPendingTasks() {
-    this.tasks = this.taskService.getPendingTasks();
-  }
+  getPendingTasks() {}
 }

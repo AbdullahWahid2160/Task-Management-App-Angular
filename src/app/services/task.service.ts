@@ -3,48 +3,30 @@ import { Task } from '../models/task.model';
 
 export class TaskService {
   tasksChanged = new EventEmitter<Task[]>();
-  private tasks: Task[] = [
-    {
-      id: 1,
-      title: 'Complete Angular Project',
-      description: 'Finish the task management app in Angular.',
-      createdAt: new Date('2023-09-01'),
-      updatedAt: new Date('2023-09-02'),
-      done: false,
-    },
-    {
-      id: 2,
-      title: 'Write Documentation',
-      description: 'Document the task management app for future reference.',
-      createdAt: new Date('2023-09-02'),
-      updatedAt: new Date('2023-09-03'),
-      done: false,
-    },
-    {
-      id: 3,
-      title: 'Deploy to Production',
-      description: 'Prepare the app for deployment to a production server.',
-      createdAt: new Date('2023-09-03'),
-      updatedAt: new Date('2023-09-04'),
-      done: false,
-    },
-    {
-      id: 4,
-      title: 'Review Code',
-      description:
-        'Review and refactor the codebase for performance improvements.',
-      createdAt: new Date('2023-09-04'),
-      updatedAt: new Date('2023-09-05'),
-      done: false,
-    },
-  ];
+  private localStorageKey = 'Tasks';
+  private tasks: Task[] = [];
+  private lastId: number = -1;
 
+  constructor() {
+    this.loadTasksFromLocalStorage();
+  }
+
+  private loadTasksFromLocalStorage(): void {
+    const tasksJson = localStorage.getItem(this.localStorageKey);
+    if (tasksJson) {
+      this.tasks = JSON.parse(tasksJson);
+    }
+  }
+  private saveTasksToLocalStorage(): void {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.tasks));
+  }
   getAllTasks() {
     return this.tasks.slice();
   }
 
   getTaskByID(taskId: number) {
-    return this.tasks[this.tasks.findIndex((t) => t.id === +taskId)];
+    const taskIndex = this.tasks.slice().findIndex((t) => t.id === taskId);
+    return this.tasks[taskIndex];
   }
 
   getCompletedTasks() {
@@ -58,11 +40,15 @@ export class TaskService {
   updateTaskStatus(task: Task) {
     const taskToUpdate = this.getTaskByID(task.id);
     taskToUpdate.done = !task.done;
+    this.tasksChanged.emit(this.tasks.slice());
+    this.saveTasksToLocalStorage();
   }
 
   onTaskAdded(task: Task) {
+    task.id = ++this.lastId;
     this.tasks.push(task);
     this.tasksChanged.emit(this.tasks.slice());
+    this.saveTasksToLocalStorage();
   }
 
   onTaskUpdated(updatedTask: Task) {
@@ -76,6 +62,7 @@ export class TaskService {
       console.error(`Task with ${updatedTask.id} not found.`);
     }
     this.tasksChanged.emit(this.tasks.slice());
+    this.saveTasksToLocalStorage();
   }
 
   onDeletingTask(id: number) {
@@ -84,5 +71,6 @@ export class TaskService {
       this.tasks.splice(taskIndex, 1);
     }
     this.tasksChanged.emit(this.tasks.slice());
+    this.saveTasksToLocalStorage();
   }
 }

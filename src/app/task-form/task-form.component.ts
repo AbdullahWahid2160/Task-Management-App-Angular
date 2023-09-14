@@ -25,10 +25,9 @@ export class TaskFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const taskID = params['id'];
+      const taskID: number = JSON.parse(params['id']);
       if (taskID) {
         this.task = this.taskService.getTaskByID(taskID);
-
         this.isEditMode = true;
       } else {
         this.isEditMode = false;
@@ -37,14 +36,11 @@ export class TaskFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('New Task being Added: ', this.task);
     if (this.isEditMode) {
       // Update existing task
-      console.log('Update the Existing Task');
       this.taskService.onTaskUpdated(this.task);
     } else {
       // Add new task
-      console.log('Add a new Task');
       this.taskService.onTaskAdded(this.task);
     }
 

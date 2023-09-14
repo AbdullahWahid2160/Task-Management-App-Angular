@@ -1,4 +1,4 @@
-<div class="container mx-auto">
+<div class="container text-center mt-5 col-md-10">
   <h2>{{ isEditMode ? "Edit the Task" : "Add New Task" }}</h2>
   <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
     <div class="form-floating mb-3 mt-4">
@@ -24,26 +24,26 @@
       ></textarea>
       <label for="floatingTextarea">Description</label>
     </div>
-    <div class="m-3 row justify-content-between align-items-center">
-      <div class="col-md-3">
-        <label for="done">Status</label>
-      </div>
-      <div class="col-md-9">
-        <input
-          type="checkbox"
-          class="btn-check"
-          name="options-outlined"
-          id="success-outlined"
-          autocomplete="off"
-          [(ngModel)]="task.done"
-        />
-        <label class="btn btn-outline-success" for="success-outlined"
-          >Completed</label
-        >
-      </div>
+    <div class="d-flex m-3 flex-row align-items-center justify-content-center">
+      <label for="done" class="px-2">Status</label>
+      <input
+        type="checkbox"
+        class="btn-check"
+        name="options-outlined"
+        id="success-outlined"
+        autocomplete="off"
+        [(ngModel)]="task.done"
+      />
+      <label class="btn btn-outline-success px-4" for="success-outlined"
+        >{{task.done === true ? 'Completed' : 'Pending'}}</label
+      >
     </div>
     <div class="row mx-auto">
-      <button type="submit" class="btn mx-auto" [ngClass]="isEditMode ? 'btn-success' : 'btn-primary'">
+      <button
+        type="submit"
+        class="btn mx-auto"
+        [ngClass]="isEditMode ? 'btn-success' : 'btn-primary'"
+      >
         {{ isEditMode ? "Update Task" : "Add Task" }}
       </button>
     </div>
