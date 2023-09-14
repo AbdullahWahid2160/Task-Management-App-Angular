@@ -79,6 +79,10 @@ export class TaskService {
   }
 
   onDeletingTask(id: number) {
-    console.log('deleting', id, 'from tasks');
+    const taskIndex = this.tasks.findIndex((task) => task.id === id);
+    if (taskIndex !== -1) {
+      this.tasks.splice(taskIndex, 1);
+    }
+    this.tasksChanged.emit(this.tasks.slice());
   }
 }

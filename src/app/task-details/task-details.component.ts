@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Task } from '../models/task.model';
 import { TaskService } from '../services/task.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-details',
@@ -19,7 +20,8 @@ export class TaskDetailsComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +33,8 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   onTaskDeleted(Id: number) {
+    alert('Are you sure, you want to delete this task?');
     this.taskService.onDeletingTask(Id);
+    this.router.navigate(['/tasks']);
   }
 }
