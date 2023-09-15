@@ -5,7 +5,6 @@ export class TaskService {
   tasksChanged = new EventEmitter<Task[]>();
   private localStorageKey = 'Tasks';
   private tasks: Task[] = [];
-  private lastId: number = -1;
 
   constructor() {
     this.loadTasksFromLocalStorage();
@@ -25,8 +24,12 @@ export class TaskService {
   }
 
   getTaskByID(taskId: number) {
-    const taskIndex = this.tasks.slice().findIndex((t) => t.id === taskId);
-    return this.tasks[taskIndex];
+    const taskIndex = this.tasks.slice().findIndex((t) => t.id == taskId);
+    if (taskIndex === -1) {
+      return this.tasks[taskIndex];
+    } else {
+      return this.tasks[taskIndex];
+    }
   }
 
   getCompletedTasks() {
@@ -38,6 +41,7 @@ export class TaskService {
   }
 
   updateTaskStatus(task: Task) {
+    task.updatedAt = new Date();
     const taskToUpdate = this.getTaskByID(task.id);
     taskToUpdate.done = !task.done;
     this.tasksChanged.emit(this.tasks.slice());
@@ -45,13 +49,21 @@ export class TaskService {
   }
 
   onTaskAdded(task: Task) {
-    task.id = ++this.lastId;
+    if(this.tasks.length === 0){
+      task.id = this.tasks.length;
+    }else{
+      task.id = this.tasks.length - 1;
+    }
+    task.id = this.tasks.length;
+    task.createdAt = new Date();
+    task.updatedAt = new Date();
     this.tasks.push(task);
     this.tasksChanged.emit(this.tasks.slice());
     this.saveTasksToLocalStorage();
   }
 
   onTaskUpdated(updatedTask: Task) {
+    updatedTask.updatedAt = new Date();
     const taskIndex = this.tasks.findIndex(
       (task) => task.id === updatedTask.id
     );

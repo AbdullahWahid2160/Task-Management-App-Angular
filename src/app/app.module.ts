@@ -10,11 +10,15 @@ import { TaskService } from './services/task.service';
 import { TaskItemComponent } from './task-list/task-list-item/task-list-item.component';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { TaskSearchComponent } from './task-search/task-search.component';
+import { CommonModule } from '@angular/common';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'not-found', component: NotFoundComponent },
   { path: 'tasks', component: TaskListComponent },
-  // { path: 'search', component: SearchComponent },
+  { path: 'search', component: TaskSearchComponent },
   { path: 'add-task', component: TaskFormComponent },
   { path: 'edit-task/:id', component: TaskFormComponent },
   { path: 'task-detail/:id', component: TaskDetailsComponent },
@@ -28,8 +32,10 @@ const appRoutes: Routes = [
     TaskItemComponent,
     TaskFormComponent,
     TaskDetailsComponent,
+    TaskSearchComponent,
+    NotFoundComponent
   ],
-  imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
+  imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes), CommonModule],
   providers: [TaskService],
   bootstrap: [AppComponent],
 })

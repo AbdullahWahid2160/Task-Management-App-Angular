@@ -37,8 +37,4 @@ export class TaskListComponent {
         break;
     }
   }
-
-  getCompletedTasks() {}
-
-  getPendingTasks() {}
 }

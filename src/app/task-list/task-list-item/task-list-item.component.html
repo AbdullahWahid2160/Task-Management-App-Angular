@@ -5,7 +5,9 @@
       [class.list-group-item-success]="task.done"
       (click)="onUpdateStatus(task)"
     >
-      <p>{{ task.title }}</p>
+      <p>
+        <strong>{{ task.title }}</strong>
+      </p>
     </li>
   </div>
   <div class="col-md-1">

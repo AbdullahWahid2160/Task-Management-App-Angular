@@ -14,8 +14,4 @@ export class TaskItemComponent {
   onUpdateStatus(task: Task) {
     this.taskService.updateTaskStatus(task);
   }
-
-  onViewDetails(task: Task){
-    
-  }
 }

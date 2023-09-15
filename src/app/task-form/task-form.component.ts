@@ -1,7 +1,7 @@
+import { Task } from 'src/app/models/task.model';
 import { Component, OnInit } from '@angular/core';
-import { Task } from '../models/task.model';
 import { TaskService } from '../services/task.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-form',
@@ -20,14 +20,14 @@ export class TaskFormComponent implements OnInit {
 
   constructor(
     private taskService: TaskService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const taskID: number = JSON.parse(params['id']);
-      if (taskID) {
-        this.task = this.taskService.getTaskByID(taskID);
+      if (params['id']) {
+        this.task = this.taskService.getTaskByID(JSON.parse(params['id']));
         this.isEditMode = true;
       } else {
         this.isEditMode = false;
@@ -39,6 +39,7 @@ export class TaskFormComponent implements OnInit {
     if (this.isEditMode) {
       // Update existing task
       this.taskService.onTaskUpdated(this.task);
+      this.router.navigate([`/task-detail/${this.task.id}`]);
     } else {
       // Add new task
       this.taskService.onTaskAdded(this.task);

@@ -26,8 +26,10 @@ export class TaskDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const taskId: number = JSON.parse(params['id']);
-      this.task = this.taskService.getTaskByID(taskId);
+      this.task = this.taskService.getTaskByID(JSON.parse(params['id']));
+      if (this.task === undefined) {
+        this.router.navigate(['/not-found']);
+      }
     });
   }
 
