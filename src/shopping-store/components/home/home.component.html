@@ -1,0 +1,27 @@
+<div class="container mt-5 text-center pt-5">
+  <h1>Welcome to the Store</h1>
+  <div class="d-flex flex-column align-items-center justify-content-center">
+    <button
+      type="button"
+      class="btn btn-success m-3 w-75 h-50"
+      routerLink="/shopping-store/users"
+      [hidden]="!isAdmin"
+    >
+      View All Users
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary m-3 w-75 h-50"
+      routerLink="/shopping-store/category"
+    >
+      View All Categories
+    </button>
+    <button
+      type="button"
+      class="btn btn-info m-3 w-75 h-50"
+      routerLink="/shopping-store/products"
+    >
+      View All Products
+    </button>
+  </div>
+</div>

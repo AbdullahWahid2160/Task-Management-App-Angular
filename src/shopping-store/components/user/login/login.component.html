@@ -1,0 +1,33 @@
+<div class="container text-center mt-5 col-md-10 pt-5">
+  <h2>Enter you credentials to login.</h2>
+  <form (ngSubmit)="login()" #taskForm="ngForm">
+    <div class="form-floating mb-3 mt-4">
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="name@example.com"
+        [(ngModel)]="email"
+        required
+      />
+      <label for="email">Email</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="**********"
+        [(ngModel)]="password"
+        required
+      />
+      <label for="email">Password</label>
+    </div>
+    <div class="row mx-auto">
+      <button type="submit" class="btn mx-auto btn-primary">Login</button>
+    </div>
+  </form>
+  <router-outlet></router-outlet>
+</div>
